@@ -1,0 +1,86 @@
+﻿@model Restaurante.Datos.RESERVA
+
+@{
+    ViewBag.Title = "EditReserva";
+}
+
+<h2 style="color: #fff">Clientes &raquo; Editar reserva</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" style="background: rgba(0,0,0,0.6); width: 70rem">
+          <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2" style="color: #fff">ID Reserva</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ID_RESERVA, new { htmlAttributes = new { @class = "form-control" , disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.ID_RESERVA, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" style="color: #fff">Nombre Cliente</label>
+            <div class="col-md-10">
+                @{string nombrecliente = Model.CLIENTE.NOMBRE_CLIENTE + " " + Model.CLIENTE.APELLIDO_CLIENTE; }
+                @Html.EditorFor(model => nombrecliente, new { htmlAttributes = new { @class = "form-control",disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.CLIENTE.NOMBRE_CLIENTE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" style="color: #fff">Rut</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CLIENTE.RUT_CLIENTE, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.CLIENTE.RUT_CLIENTE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @{
+            List<SelectListItem> listItems = new List<SelectListItem>();
+            listItems.Add(new SelectListItem { Text = "Pendiente", Value = "0" });
+            listItems.Add(new SelectListItem { Text = "Terminada", Value = "1" });
+
+        }
+        <div class="form-group">
+            <label class="control-label col-md-2" style="color: #fff">Fecha</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FECHA, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.FECHA, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @{
+            IEnumerable<SelectListItem> lista = new List<SelectListItem>();
+            lista = ViewBag.items;
+        }
+        <div class="form-group">
+            <label class="control-label col-md-2" style="color: #fff">Mesa asignada</label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.MESA_NUM_MESA, lista, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.MESA_NUM_MESA, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" style="color: #fff">Estado reserva</label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.ESTADO, listItems, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ESTADO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Guardar cambios" class="btn btn-success" />
+                @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-info" })
+            </div>
+        </div>
+        <br />
+    </div>
+}
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

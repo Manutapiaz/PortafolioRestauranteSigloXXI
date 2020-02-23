@@ -1,0 +1,76 @@
+﻿@model Restaurante.Datos.INSUMO
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2 style="color: #fff">Insumos &raquo; Editar insumo</h2>
+
+@using (Html.BeginForm("Edit", "Insumo", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" style="background: rgba(0,0,0,0.6); width: 70rem">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+        <div class="form-group">
+            <label class="control-label col-md-2" style="color: #fff">Nombre Insumo</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NOMBRE_INSUMO, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NOMBRE_INSUMO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" style="color: #fff">Stock</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.STOCK_INSUMO, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.STOCK_INSUMO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @{
+            List<SelectListItem> listItems = new List<SelectListItem>();
+            listItems.Add(new SelectListItem { Text = "Kilogramo", Value = "Kilogramo" });
+            listItems.Add(new SelectListItem { Text = "Gramo", Value = "Gramo" });
+            listItems.Add(new SelectListItem { Text = "Unidad", Value = "Unidad" });
+            listItems.Add(new SelectListItem { Text = "Litro", Value = "Litro" });
+
+        }
+        <div class="form-group">
+            <label class="control-label col-md-2" style="color: #fff">Unidad Medida</label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.UNIDADMEDIDA_INSUMO, listItems, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.UNIDADMEDIDA_INSUMO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" style="color: #fff">Precio Unidad</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PRECIO, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PRECIO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" style="color: #fff">Imagen</label>
+            <div class="col-md-10">
+                <input type="file" name="file" id="file" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Guardar cambios" class="btn btn-success" />
+                @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-info" })
+            </div>
+        </div>
+        <br />
+    </div>
+            }
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

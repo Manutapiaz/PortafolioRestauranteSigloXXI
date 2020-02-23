@@ -1,0 +1,142 @@
+﻿@model IEnumerable<Restaurante.Datos.PEDIDO_PLATOS>
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jq-3.3.1/dt-1.10.18/datatables.min.css" />
+
+<h2 style="color: #fff">Venta &raquo; Detalle Venta</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Platos</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover table-striped" id="MyTable">
+                    <thead class="thead thead-dark">
+                        <tr>
+                            <th>
+                                Imagen
+                            </th>
+                            <th>
+                                Nombre Plato
+                            </th>
+                            <th>
+                                Cantidad
+                            </th>
+                            <th>
+                                Precio
+                            </th>
+                            @{
+                                int totalFinal = 0;
+                            }
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.PLATO.IMAGEURL))
+                {
+                                        <img src="@Url.Content("http://localhost:49547" + item.PLATO.IMAGEURL)" alt="Image" style="width:100px;height:100px;" />
+                                    }
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PLATO.NOMBRE_PLATO)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CANTIDAD)
+                                </td>
+                                <td>
+                                    @{
+
+                                        int total = item.CANTIDAD * item.PLATO.PRECIO_VENTA;
+                                        totalFinal += total;
+                                    }
+                                    $@total
+                                </td>
+                            </tr>
+                                        }
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                @{
+                                    int mesero = Convert.ToInt32(totalFinal * 0.1);
+                                    totalFinal = totalFinal + mesero;
+                                }
+                                10% Mesero : $@mesero
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                Total : $@totalFinal
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <a href='@Url.Action("Ventas")'
+                   class="btn btn-success">
+                    <i class="fa fa-chevron-left"></i>
+                    Volver
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="deleteDialog" class="modal fade">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="fa fa-window-close"></i></button>
+                <h4 class="modal-title">Eliminar</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Estas seguro de eliminar un Plato?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="btnYesDelete">Eliminar</button>
+                <button type="button" class="btn btn-success" id="btnNoDelete">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jq-3.3.1/dt-1.10.18/datatables.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#MyTable').DataTable();
+
+            var id = 0;
+
+            $('a[id*=btnDelete]').click(function () {
+                debugger;
+                id = $(this).parent()[0].id;
+                $("#deleteDialog").modal('show');
+                return false;
+            });
+
+            $("#btnNoDelete").click(function () {
+                $("#deleteDialog").modal('hide');
+                return false;
+            });
+
+            $("#btnYesDelete").click(function () {
+                window.location.href = '/Plato/Delete/' + id;
+            });
+
+        });</script>
+}
